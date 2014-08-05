@@ -52,6 +52,7 @@ def parse_fasta_file(fasta_file, output_file):
     else:
         output = open(output_file, "wt")
     header = ""
+    seq_len_tab = []
     try:
         with open(fasta_file, "rt") as fast:
             for line in fast:
@@ -60,7 +61,7 @@ def parse_fasta_file(fasta_file, output_file):
                         seq_len = len(sequence)
                         print("{0}\t{1}".format(header, seq_len),
                               file=output)
-                        seq_len_tab += [seq_len]
+                        seq_len_tab.append(seq_len)
                     header = line[1:].replace("\n", "").replace("\r", "").split(" ")[0]
                     sequence = ""
                 else:
