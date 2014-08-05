@@ -57,17 +57,21 @@ def parse_fasta_file(fasta_file, output_file):
             for line in fast:
                 if line[0] == ">":
                     if len(header) > 0:
-                        print("{0}\t{1}".format(header, len(sequence)),
+                        seq_len = len(sequence)
+                        print("{0}\t{1}".format(header, seq_len),
                               file=output)
+                        seq_len_tab += [seq_len]
                     header = line[1:].replace("\n", "").replace("\r", "").split(" ")[0]
                     sequence = ""
                 else:
                     sequence += line.replace("\n", "").replace("\r", "")
-                    
     except IOError:
         sys.exit("Error cannot open {0}".format(fasta_file))
     if output_file:
         output.close()
+    print("Mean value:{1}{0}Median value:{2}{0}".format(
+          os.linesep, sum(seq_len_tab)/len(seq_len_tab),
+          sorted(seq_len_tab)[len(seq_len_tab)//2]))
 
 
 def main():
